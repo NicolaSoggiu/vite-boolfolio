@@ -49,7 +49,11 @@ export default {
       class="card"
       style="width: 18rem"
     >
-      <img class="card-img-top" src="project.image" alt="Card image cap" />
+      <img
+        class="card-img-top"
+        :src="'http://localhost:8000/storage/' + project.image"
+        alt="Card image cap"
+      />
       <div class="card-body">
         <h5 class="card-title">{{ project.title }}</h5>
         <p class="card-text">
