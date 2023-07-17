@@ -17,7 +17,7 @@ export default {
     getImageUrl(image) {
       return image
         ? this.store.baseUrl + "storage/" + image
-        : this.store.baseUrl + "storage/default.jpeg";
+        : this.store.baseUrl + "storage/default.png";
     },
   },
 };

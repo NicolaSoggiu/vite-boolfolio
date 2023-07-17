@@ -48,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
+  <div class="row row-cols-3 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
     <div class="col" v-for="project in arrProjects" :key="project.id">
       <ProjectCard :objProject="project" />
     </div>
