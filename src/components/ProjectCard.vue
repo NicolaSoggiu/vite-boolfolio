@@ -27,7 +27,7 @@ export default {
   <div class="card h-100">
     <img
       :src="getImageUrl(objProject.image)"
-      class="card-img-top"
+      class="image-card card-img-top object-fit-cover"
       alt="objProject.title"
     />
     <div class="card-body d-flex flex-column">
@@ -37,11 +37,15 @@ export default {
       </p>
       <router-link
         :to="{ name: 'projects.show', params: { slug: objProject.slug } }"
-        class="btn btn-primary"
+        class="btn btn-primary mt-auto"
         >View project</router-link
       >
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.image-card {
+  height: 250px;
+}
+</style>
