@@ -1,88 +1,47 @@
 <script>
-import axios from "axios";
+import { store } from "../store";
+
 export default {
   data() {
     return {
-      arrProjects: [],
-      currentPage: 1,
-      nPages: 0,
+      store,
     };
   },
-  methods: {
-    changePage(page) {
-      this.currentPage = page;
-      this.getProject();
-    },
-    getProject() {
-      axios
-        .get("http://localhost:8000/api/projects", {
-          params: {
-            page: this.currentPage,
-          },
-        })
-        .then((response) => {
-          this.arrProjects = response.data.data;
-          this.nPages = response.data.last_page;
-        });
+  props: {
+    objProject: {
+      type: Object,
+      required: true,
     },
   },
-  created() {
-    axios
-      .get("http://localhost:8000/api/projects", {
-        params: {
-          page: this.currentPage,
-        },
-      })
-      .then((response) => {
-        this.arrProjects = response.data.data;
-        this.nPages = response.data.last_page;
-      });
+  methods: {
+    getImageUrl(image) {
+      return image
+        ? this.store.baseUrl + "storage/" + image
+        : this.store.baseUrl + "storage/default.jpeg";
+    },
   },
 };
 </script>
 
 <template>
-  <div class="d-flex py-3" style="gap: 10px">
-    <div
-      v-for="project in arrProjects"
-      :key="project.id"
-      class="card"
-      style="width: 18rem"
-    >
-      <img
-        class="card-img-top"
-        :src="'http://localhost:8000/storage/' + project.image"
-        alt="Card image cap"
-      />
-      <div class="card-body">
-        <h5 class="card-title">{{ project.title }}</h5>
-        <p class="card-text">
-          {{ project.description }}
-        </p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
+  <div class="card h-100">
+    <img
+      :src="getImageUrl(objProject.image)"
+      class="card-img-top"
+      alt="objProject.title"
+    />
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title">{{ objProject.title }}</h5>
+      <p class="card-text">
+        {{ objProject.description }}
+      </p>
+      <router-link
+        :to="{ name: 'projects.show', params: { slug: objProject.slug } }"
+        class="btn btn-primary"
+        >View project</router-link
+      >
     </div>
   </div>
-
-  <nav>
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <a class="page-link">Previous</a>
-      </li>
-
-      <li
-        v-for="page in nPages"
-        :key="page"
-        class="page-item"
-        :class="{ active: page === currentPage }"
-      >
-        <span class="page-link" @click="changePage(page)">{{ page }}</span>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
 </template>
 
 <style lang="scss" scoped></style>
