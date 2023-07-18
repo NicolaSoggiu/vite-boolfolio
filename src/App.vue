@@ -13,7 +13,7 @@ export default {
 <template>
   <AppNav />
   <div class="container">
-    <h1 class="text-center p-3">Boolpress</h1>
+    <h1 class="text-center text-danger p-3">Boolpress</h1>
     <router-view></router-view>
   </div>
 

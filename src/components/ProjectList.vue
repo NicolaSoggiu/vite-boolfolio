@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       arrProjects: [],
+      arrTypes: [],
       currentPage: 1,
       nPages: 0,
       store,
@@ -28,16 +29,23 @@ export default {
         .get(this.store.baseUrl + "api/projects", {
           params: {
             page: this.currentPage,
+            q: new URLSearchParams(window.location.search).get("q"),
           },
         })
         .then((response) => {
-          this.arrProjects = response.data.data;
-          this.nPages = response.data.last_page;
+          this.arrProjects = response.data.results.data;
+          this.nPages = response.data.results.last_page;
         });
+    },
+    getTypes() {
+      axios.get(this.store.baseUrl + "api/types").then((response) => {
+        this.arrTypes = response.data.results;
+      });
     },
   },
   created() {
     this.getProject();
+    this.getTypes();
   },
   watch: {
     currentPage() {
@@ -48,6 +56,17 @@ export default {
 </script>
 
 <template>
+  <form class="my-3 w-25">
+    <label for="type">
+      <h4>Select the project type</h4>
+    </label>
+    <select class="form-select" id="type">
+      <option v-for="types in arrTypes" :key="types.id" :value="types.id">
+        {{ types.name }}
+      </option>
+    </select>
+  </form>
+
   <div class="row row-cols-3 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
     <div class="col" v-for="project in arrProjects" :key="project.id">
       <ProjectCard :objProject="project" />
